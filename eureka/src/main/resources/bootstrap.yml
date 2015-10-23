@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: service-discovery
+  cloud:
+    config:
+      uri: ${vcap.services.config-server.credentials.uri:http://127.0.0.1:8888}
+
+server:
+  port: ${PORT:8761}
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    server:
+      waitTimeInMsWhenSyncEmpty: 0

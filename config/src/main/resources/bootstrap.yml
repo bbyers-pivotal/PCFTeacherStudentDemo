@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+#          uri: https://gitlab.com/bbyers-pivotal/TeacherStudentQA-config
+# While in development mode, you can configure the config server to pick up configuration files from the file system
+           uri: file://Users/brianbyers/Projects/TeacherStudentQA/dev-config
+
+server:
+  port: ${PORT:8888}
