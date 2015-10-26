@@ -1,0 +1,16 @@
+<div class="alert alert-success" ng-show="data.saved">
+    <strong>Success!</strong> Your answer has been saved.
+</div>
+<div class="alert alert-danger" ng-show="data.error">
+    <strong>Error!</strong> Your answer was not saved. Please try again.
+</div>
+
+<div class="question-answer" ng-show="data.question.id">
+    <div>
+        <h3>{{data.question.question}}</h3>
+        <form id="question_{{data.question.id}}" name="question_{{data.question.id}}">
+            <textarea cols="100" rows="5" ng-model="data.question.answer"></textarea>
+            <a class="btn btn-primary" ng-click="answerQuestion(data.question)">Answer</a>
+        </form>
+    </div>
+</div>

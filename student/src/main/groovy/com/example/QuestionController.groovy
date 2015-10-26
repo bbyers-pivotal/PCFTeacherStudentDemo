@@ -16,9 +16,6 @@ class QuestionController {
     @Autowired
     QuizClient quizClient
 
-    @Autowired
-    DiscoveryClient discoveryClient;
-
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
     def questions() {
         quizClient.getQuestions()

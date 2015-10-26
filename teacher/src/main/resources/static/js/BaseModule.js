@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angular.module('student', [ 'ngRoute', 'ngStorage' ]).config(function($routeProvider, $httpProvider) {
+    angular.module('teacher', [ 'ngRoute', 'ngStorage' ]).config(function($routeProvider, $httpProvider) {
 
         $routeProvider
         .when('/', {
@@ -14,6 +14,10 @@
         .when('/login', {
             templateUrl : 'templates/login.html',
             controller : 'LoginController'
+        })
+        .when('/questions/ask', {
+            templateUrl : 'templates/askQuestion.html',
+            controller : 'AskQuestionController'
         })
         .when('/questions/:id', {
             templateUrl : 'templates/selectedQuestion.html',

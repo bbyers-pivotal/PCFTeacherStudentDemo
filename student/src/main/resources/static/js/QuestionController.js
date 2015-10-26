@@ -2,14 +2,12 @@
     'use strict';
 
     var app = angular.module('student');
-    app.controller('QuestionController', ['$scope', '$http', '$localStorage', '$interval', '$timeout', function($scope, $http, $localStorage, $interval, $timeout) {
-        $scope.data = {
-            saved: false,
-            error: false
-        };
+    app.controller('QuestionController', ['$scope', '$http', '$localStorage', '$interval', '$timeout', '$location', function($scope, $http, $localStorage, $interval, $timeout, $location) {
+        $scope.data = {};
 
         $scope.data.answeredQuestions = $localStorage.answeredQuestions;
         function refreshQuestions() {
+            console.log('Refreshing questions');
             $http.get('questions/').success(function(data) {
                 var answeredQuestions = $localStorage.answeredQuestions;
 
@@ -24,37 +22,11 @@
             });
         };
         refreshQuestions();
-        $interval(refreshQuestions, 1000);
-
-        $scope.data.selectedQuestion = {};
+        $interval(refreshQuestions, 5000);
 
         $scope.selectQuestion = function(question) {
-            $scope.data.selectedQuestion = question;
+            $location.path('questions/' + question.id);
         };
-
-        function hideMessages() {
-            $scope.data.saved = false;
-            $scope.data.error = false;
-        }
-
-        $scope.answerQuestion = function(question) {
-            hideMessages();
-
-            $http.post('questions/' + question.id + '/answer', {id: question.id, answer: question.answer}).success(function() {
-                $localStorage.answeredQuestions.push(question);
-                _.remove($scope.data.questions, function(q) {
-                    return q.id == question.id;
-                });
-                $scope.data.selectedQuestion = {};
-                $scope.data.saved = true;
-
-                $timeout(function() {
-                    hideMessages();
-                }, 5000)
-            }).error(function() {
-                $scope.data.error = true;
-            });
-        }
     }]);
 }());
 

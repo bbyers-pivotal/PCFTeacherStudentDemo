@@ -1,0 +1,15 @@
+<div class="alert alert-success" ng-show="data.saved">
+    <strong>Success!</strong> Your question has been saved.
+</div>
+<div class="alert alert-danger" ng-show="data.error">
+    <strong>Error!</strong> Your question was not saved. Please try again.
+</div>
+
+<div class="question-answer" ng-show="data.question.id">
+    <div>
+        <h3>{{data.question.question}}</h3>
+        <div ng-repeat="a in data.question.answers">
+            {{a.answer}}
+        </div>
+    </div>
+</div>

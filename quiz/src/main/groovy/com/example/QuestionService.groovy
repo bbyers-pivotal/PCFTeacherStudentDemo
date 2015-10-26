@@ -17,7 +17,7 @@ class QuestionService {
     }
 
     def findById(String id) {
-        return questionRepository.findById(id)?.first()
+        return questionRepository.findById(id)[0]
     }
 
     def save(String question) {
@@ -26,7 +26,7 @@ class QuestionService {
     }
 
     Boolean recordAnswer(String id, String username, String answer) {
-        Question question = questionRepository.findById(id)?.first()
+        Question question = questionRepository.findById(id)[0]
         if (question) {
             Answer a = new Answer(answer: answer, username: username)
             answerRepository.save(a)
