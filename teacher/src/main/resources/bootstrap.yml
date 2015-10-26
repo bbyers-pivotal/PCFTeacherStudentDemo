@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: teacher
+  cloud:
+    config:
+      uri: ${vcap.services.config-server.credentials.uri:http://127.0.0.1:8888}
+server:
+  port: 9000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${vcap.services.discovery-service.credentials.uri:http://127.0.0.1:8761}/eureka/

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: quiz
+  cloud:
+    config:
+      uri: ${vcap.services.config-server.credentials.uri:http://127.0.0.1:8888}
+server:
+  port: 8001
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${vcap.services.discovery-service.credentials.uri:http://127.0.0.1:8761}/eureka/

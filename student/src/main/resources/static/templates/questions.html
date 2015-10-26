@@ -1,0 +1,33 @@
+<div class="alert alert-success" ng-show="data.saved">
+    <strong>Success!</strong> Your answer has been saved.
+</div>
+<div class="alert alert-danger" ng-show="data.error">
+    <strong>Error!</strong> Your answer was not saved. Please try again.
+</div>
+
+<div class="alert alert-info" ng-show="data.questions.length == 0">No questions to answer</div>
+<div class="questions" ng-show="data.questions.length > 0">
+    <h3>New Questions</h3>
+    <div ng-repeat="q in data.questions">
+        <h3>{{q.question}} - <a ng-click="selectQuestion(q)" class="btn btn-default">Select</a></h3>
+    </div>
+</div>
+
+<div class="question-answer" ng-show="data.selectedQuestion.id">
+    <div>
+        <h3>{{data.selectedQuestion.question}}</h3>
+        <form id="question_{{data.selectedQuestion.id}}" name="question_{{data.selectedQuestion.id}}">
+            <textarea cols="100" rows="5" ng-model="data.selectedQuestion.answer"></textarea>
+            <a class="btn btn-primary" ng-click="answerQuestion(data.selectedQuestion)">Answer</a>
+        </form>
+    </div>
+</div>
+
+
+<div class="answered-questions" ng-show="data.answeredQuestions.length > 0">
+    <h3>Answered Questions</h3>
+    <div ng-repeat="q in data.answeredQuestions">
+        <p><strong>{{q.question}}</strong></p>
+        <p>{{q.answer}}</p>
+    </div>
+</div>
