@@ -17,15 +17,13 @@ class QuestionController {
     QuizClient quizClient
 
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "defaultQuestions")
     def questions() {
-        quizClient.findAll()
+        findAllQuestions()
     }
 
     @RequestMapping(value = '/questions/{questionId}', method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "defaultQuestion")
     def question(@PathVariable String questionId) {
-        quizClient.findById(questionId)
+        findQuestionById(questionId)
     }
 
     @RequestMapping(value = '/questions/{questionId}/answer', method = RequestMethod.POST)
@@ -40,11 +38,21 @@ class QuestionController {
     }
 
     /*
-     * Hystrix fallbacks
+     * Hystrix commands/fallbacks
      */
+
+    @HystrixCommand(fallbackMethod = "defaultQuestions")
+    def findAllQuestions() {
+        quizClient.findAll()
+    }
 
     def defaultQuestions() {
         []
+    }
+
+    @HystrixCommand(fallbackMethod = "defaultQuestion")
+    def findQuestionById(String questionId) {
+        quizClient.findById(questionId)
     }
 
     def defaultQuestion(String questionId) {
