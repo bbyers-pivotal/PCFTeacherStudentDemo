@@ -1,0 +1,28 @@
+---
+domain: pezapp.io
+timeout: 180
+instances: 1
+memory: 512M
+env:
+    SPRING_PROFILES_DEFAULT: cloud
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+applications:
+- name: service-discovery
+  host: service-discovery-${random-word}
+  path: eureka/build/libs/eureka-0.0.1-SNAPSHOT.jar
+- name: student
+  host: student-${random-word}
+  path: student/build/libs/student-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service ]
+- name: teacher
+  host: teacher-${random-word}
+  path: teacher/build/libs/teacher-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service ]
+- name: quiz
+  host: quiz-${random-word}
+  path: quiz/build/libs/quiz-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service, mongodb-service, rabbitmq-service ]
+- name: user
+  host: user-${random-word}
+  path: user/build/libs/user-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service, mongodb-service ]
