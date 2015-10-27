@@ -20,7 +20,7 @@ class QuestionService {
     }
 
     def findById(String id) {
-        return questionRepository.findById(id)[0]
+        return questionRepository.findById(id)
     }
 
     def save(String question) {
@@ -51,7 +51,7 @@ class QuestionService {
     }
 
     Boolean recordAnswer(String id, String username, String answer) {
-        Question question = questionRepository.findById(id)[0]
+        Question question = questionRepository.findById(id)
         if (username && question) {
             User user = userClient.findByUsername(username) ?: new User(username: username)
             if (!user.id) {
@@ -66,5 +66,14 @@ class QuestionService {
         } else {
             return false
         }
+    }
+
+    def deleteAll() {
+        questionRepository.deleteAll()
+        answerRepository.deleteAll()
+    }
+
+    def delete(String id) {
+        questionRepository.delete(id)
     }
 }

@@ -3,6 +3,7 @@
     <li class="active">Questions</li>
 </ul>
 
+<div class="alert alert-info" ng-show="data.questions.length === 0">No questions asked yet. <a href="#/questions/ask">Ask one?</a></div>
 <div class="questions" ng-show="data.questions.length > 0">
     <h3>Questions</h3>
     <div ng-repeat="q in data.questions">
@@ -12,4 +13,8 @@
 
 <div>
     <a href="#/questions/ask" class="btn btn-primary">Ask a Question</a>
+</div>
+
+<div ng-show="data.questions.length > 0">
+    <a class="btn btn-link" ng-click="deleteAllQuestions()">Delete ALL Questions</a>
 </div>

@@ -23,18 +23,18 @@ class QuestionController {
         return questions.collect { questionMap(it) }
     }
 
-    @RequestMapping(value = '/questions/{username}/{questionId}', method = RequestMethod.GET)
-    def question(@PathVariable String username, @PathVariable String questionId) {
-        def question = findQuestionById(questionId)
+    @RequestMapping(value = '/questions/{username}/{id}', method = RequestMethod.GET)
+    def question(@PathVariable String username, @PathVariable String id) {
+        def question = findQuestionById(id)
         question = filterQuestions([question], username)[0]
         return questionMap(question)
     }
 
-    @RequestMapping(value = '/questions/{username}/{questionId}/answer', method = RequestMethod.POST)
-    def answerQuestion(@PathVariable String username, @PathVariable String questionId, @RequestBody body) {
-        if (username && questionId && body.answer) {
+    @RequestMapping(value = '/questions/{username}/{id}/answer', method = RequestMethod.POST)
+    def answerQuestion(@PathVariable String username, @PathVariable String id, @RequestBody body) {
+        if (username && id && body.answer) {
             Answer answer = new Answer(username: username, answer: body.answer)
-            quizClient.answerQuestion(questionId, answer)
+            quizClient.answerQuestion(id, answer)
             new ResponseEntity(HttpStatus.CREATED)
         } else {
             new ResponseEntity(HttpStatus.BAD_REQUEST)
@@ -66,11 +66,11 @@ class QuestionController {
     }
 
     @HystrixCommand(fallbackMethod = "defaultQuestion")
-    def findQuestionById(String questionId) {
-        quizClient.findById(questionId)
+    def findQuestionById(String id) {
+        quizClient.findById(id)
     }
 
-    def defaultQuestion(String questionId) {
+    def defaultQuestion(String id) {
         null
     }
 }

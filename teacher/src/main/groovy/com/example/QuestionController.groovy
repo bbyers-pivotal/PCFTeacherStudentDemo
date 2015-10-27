@@ -22,10 +22,10 @@ class QuestionController {
         quizClient.findAll()
     }
 
-    @RequestMapping(value = '/questions/{questionId}', method = RequestMethod.GET)
+    @RequestMapping(value = '/questions/{id}', method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "defaultQuestion")
-    def question(@PathVariable String questionId) {
-        quizClient.findById(questionId)
+    def question(@PathVariable String id) {
+        quizClient.findById(id)
     }
 
     @RequestMapping(value = '/questions', method = RequestMethod.POST)
@@ -38,6 +38,17 @@ class QuestionController {
             new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
+
+    @RequestMapping(value = '/questions', method = RequestMethod.DELETE)
+    def deleteAllQuestions() {
+        quizClient.deleteAll()
+    }
+
+    @RequestMapping(value = '/questions/{id}', method = RequestMethod.DELETE)
+    def deleteQuestion(@PathVariable String id) {
+        quizClient.delete(id)
+    }
+
 
     /*
      * Hystrix fallbacks

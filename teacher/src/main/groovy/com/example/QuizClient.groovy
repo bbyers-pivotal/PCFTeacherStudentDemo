@@ -11,9 +11,15 @@ public interface QuizClient {
     @RequestMapping(method = RequestMethod.GET, value = "/questions")
     List<Question> findAll()
 
-    @RequestMapping(method = RequestMethod.GET, value = "/questions/{questionId}")
-    Question findById(@PathVariable("questionId") String questionId)
+    @RequestMapping(method = RequestMethod.GET, value = "/questions/{id}")
+    Question findById(@PathVariable("id") String id)
 
     @RequestMapping(method = RequestMethod.POST, value = "/questions", consumes = "application/json")
     askQuestion(Question question)
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/questions")
+    List<Question> deleteAll()
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/questions/{id}")
+    List<Question> delete(@PathVariable("id") String questionId)
 }

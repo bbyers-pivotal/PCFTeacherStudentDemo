@@ -11,11 +11,11 @@ public interface QuizClient {
     @RequestMapping(method = RequestMethod.GET, value = "/questions")
     List<Question> findAll()
 
-    @RequestMapping(method = RequestMethod.GET, value = "/questions/{questionId}")
-    Question findById(@PathVariable("questionId") String questionId)
+    @RequestMapping(method = RequestMethod.GET, value = "/questions/{id}")
+    Question findById(@PathVariable("id") String id)
 
-    @RequestMapping(method = RequestMethod.POST, value = "/questions/{questionId}/answer", consumes = "application/json")
-    answerQuestion(@PathVariable("questionId") String questionId, Answer answer)
+    @RequestMapping(method = RequestMethod.POST, value = "/questions/{id}/answer", consumes = "application/json")
+    answerQuestion(@PathVariable("id") String id, Answer answer)
 
     @RequestMapping(method = RequestMethod.GET, value = "/answers/{username}")
     findAllAnswersByUsername(@PathVariable("username") String username)

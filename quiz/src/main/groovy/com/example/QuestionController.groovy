@@ -44,7 +44,16 @@ class QuestionController {
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
 
+    @RequestMapping(value = '/questions', method = RequestMethod.DELETE)
+    def deleteAllQuestions() {
+        return questionService.deleteAll()
+    }
+
+    @RequestMapping(value = '/questions/{id}', method = RequestMethod.DELETE)
+    def deleteQuestion(@PathVariable id) {
+        return questionService.delete(id)
     }
 
 }

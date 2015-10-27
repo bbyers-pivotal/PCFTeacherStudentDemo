@@ -7,9 +7,18 @@
             questions: []
         };
 
-        $http.get('questions').success(function(data) {
-            $scope.data.questions = data;
-        });
+        function refreshQuestions() {
+            $http.get('questions').success(function(data) {
+                $scope.data.questions = data;
+            });
+        }
+        refreshQuestions();
+
+        $scope.deleteAllQuestions = function() {
+            $http.delete('questions').success(function() {
+                refreshQuestions();
+            });
+        }
 
         $scope.selectQuestion = function(question) {
             $location.path('/questions/' + question.id);
