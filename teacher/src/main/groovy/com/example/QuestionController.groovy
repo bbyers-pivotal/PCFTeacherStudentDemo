@@ -1,5 +1,6 @@
 package com.example
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,11 +17,13 @@ class QuestionController {
     QuizClient quizClient
 
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
+    @HystrixCommand(fallbackMethod = "defaultQuestions")
     def questions() {
         quizClient.findAll()
     }
 
     @RequestMapping(value = '/questions/{questionId}', method = RequestMethod.GET)
+    @HystrixCommand(fallbackMethod = "defaultQuestion")
     def question(@PathVariable String questionId) {
         quizClient.findById(questionId)
     }
@@ -34,5 +37,17 @@ class QuestionController {
         } else {
             new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    /*
+     * Hystrix fallbacks
+     */
+
+    def defaultQuestions() {
+        []
+    }
+
+    def defaultQuestion() {
+        null
     }
 }
