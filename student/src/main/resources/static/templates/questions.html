@@ -2,7 +2,7 @@
     <li><a href="#/">Home</a></li>
     <li class="active">Questions</li>
 </ul>
-<div class="alert alert-info" ng-show="data.questions.length === 0">No questions to answer</div>
+<div class="alert alert-info" ng-hide="data.questions.length > 0">No questions to answer</div>
 <div class="questions" ng-show="data.questions.length > 0">
     <h3>New Questions</h3>
     <div ng-repeat="q in data.questions">
