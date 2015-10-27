@@ -11,7 +11,7 @@
         var id = $routeParams.id;
 
         function refreshAnswers(id) {
-            console.log('Refreshing answers');
+            //console.log('Refreshing answers');
             $http.get('questions/' + id).success(function(data) {
                 console.log(data.answers);
                 $scope.data.question = data;
