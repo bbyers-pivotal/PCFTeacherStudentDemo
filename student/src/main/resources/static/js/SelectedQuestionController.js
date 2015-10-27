@@ -38,6 +38,7 @@
                     $location.path('questions');
                 }, 1000)
             }).error(function() {
+                $scope.data.formSubmitted = false;
                 $scope.data.error = true;
             });
         }
