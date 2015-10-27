@@ -1,0 +1,8 @@
+---
+env:
+    SPRING_PROFILES_DEFAULT: cloud
+applications:
+- name: teacher
+  path: build/libs/teacher-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service ]
+  domain: pezapp.io

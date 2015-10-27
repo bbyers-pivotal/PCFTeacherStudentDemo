@@ -1,0 +1,7 @@
+---
+env:
+    SPRING_PROFILES_DEFAULT: cloud
+applications:
+- name: service-discovery
+  path: build/libs/eureka-0.0.1-SNAPSHOT.jar
+  domain: pezapp.io

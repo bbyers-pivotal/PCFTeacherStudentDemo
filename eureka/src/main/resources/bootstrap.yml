@@ -1,20 +1,35 @@
 spring:
   application:
-    name: service-discovery
-  cloud:
-    config:
-      uri: ${vcap.services.config-server.credentials.uri:http://127.0.0.1:8888}
-
-server:
-  port: ${PORT:8761}
+    name: eureka-service
+  profiles.active: local
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${vcap.application.uris[0]:localhost}
+    metadataMap:
+      instanceId: ${spring.application.name}:${vcap.application.instance_index:${server.port}}
+  enableSelfPreservation: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.cloud: WARN
+
+---
+spring:
+  profiles: local
+eureka:
   client:
-    registerWithEureka: false
-    fetchRegistry: false
-    server:
-      waitTimeInMsWhenSyncEmpty: 0
-    serviceUrl:
-          defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+     serviceUrl:
+       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+server:
+  port: ${PORT:8761}
+
+---
+spring:
+  profiles: cloud
+eureka:
+  instance:
+    nonSecurePort: 80
