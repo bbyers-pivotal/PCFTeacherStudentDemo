@@ -17,12 +17,12 @@ class QuestionController {
 
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
     def questions() {
-        quizClient.getQuestions()
+        quizClient.findAll()
     }
 
     @RequestMapping(value = '/questions/{questionId}', method = RequestMethod.GET)
     def question(@PathVariable String questionId) {
-        quizClient.getQuestion(questionId)
+        quizClient.findById(questionId)
     }
 
     @RequestMapping(value = '/questions', method = RequestMethod.POST)
