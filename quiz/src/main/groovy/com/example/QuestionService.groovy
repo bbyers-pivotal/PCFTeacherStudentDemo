@@ -36,11 +36,7 @@ class QuestionService {
         def allQuestions = questionRepository.findAll()
         def answeredQuestions = allQuestions.findAll { it.answers.username[0] == username }
 
-        //clear out orphaned
-//        questionRepository.findAll().each { Question q ->
-//            q.answers.removeAll([null])
-//            questionRepository.save(q)
-//        }
+
         answeredQuestions.each { Question q ->
             q.answers.removeAll { it.username[0] == username }
             questionRepository.save(q)
@@ -48,6 +44,13 @@ class QuestionService {
         answerRepository.findAllByUsername(username).each {
             answerRepository.delete(it)
         }
+
+        //clear out orphaned
+        questionRepository.findAll().each { Question q ->
+            q.answers.removeAll([null])
+            questionRepository.save(q)
+        }
+
     }
 
     Boolean recordAnswer(String id, String username, String answer) {
