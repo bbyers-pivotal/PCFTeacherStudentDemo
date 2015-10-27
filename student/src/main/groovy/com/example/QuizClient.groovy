@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod
 public interface QuizClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/questions")
-    List<Question> getQuestions()
+    List<Question> findAll()
 
     @RequestMapping(method = RequestMethod.GET, value = "/questions/{questionId}")
-    Question getQuestion(@PathVariable("questionId") String questionId)
+    Question findById(@PathVariable("questionId") String questionId)
 
     @RequestMapping(method = RequestMethod.POST, value = "/questions/{questionId}/answer", consumes = "application/json")
     answerQuestion(@PathVariable("questionId") String questionId, Answer answer)

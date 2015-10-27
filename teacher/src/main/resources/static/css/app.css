@@ -9,3 +9,12 @@ body {
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;
 }
+
+#question {
+    width: 500px;
+    height: 100px;
+}
+
+.breadcrumb {
+    margin-top: -40px;
+}

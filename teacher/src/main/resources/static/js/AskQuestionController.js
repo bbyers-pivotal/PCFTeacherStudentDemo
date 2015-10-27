@@ -5,7 +5,10 @@
     app.controller('AskQuestionController', ['$scope', '$http', '$timeout', '$location', function($scope, $http, $timeout, $location) {
         $scope.data = {
             saved: false,
-            error: false
+            error: false,
+            question: {
+                question: ''
+            }
         };
 
         function hideMessages() {
@@ -14,6 +17,10 @@
         }
 
         $scope.saveQuestion = function(question) {
+            if (question.question.length === 0) {
+                return;
+            }
+
             hideMessages();
 
             $http.post('questions/', {question: question.question}).success(function() {
@@ -22,7 +29,7 @@
                 $timeout(function() {
                     hideMessages();
                     $location.path('questions');
-                }, 2000)
+                }, 1000)
             }).error(function() {
                 $scope.data.error = true;
             });

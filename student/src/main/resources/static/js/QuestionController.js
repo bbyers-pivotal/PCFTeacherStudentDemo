@@ -7,7 +7,7 @@
 
         $scope.data.answeredQuestions = $localStorage.answeredQuestions;
         function refreshQuestions() {
-            console.log('Refreshing questions');
+            //console.log('Refreshing questions');
             $http.get('questions/').success(function(data) {
                 var answeredQuestions = $localStorage.answeredQuestions;
 
@@ -27,6 +27,12 @@
         $scope.selectQuestion = function(question) {
             $location.path('questions/' + question.id);
         };
+
+        $scope.resetQuestions = function() {
+            $localStorage.answeredQuestions = [];
+            $scope.data.answeredQuestions = [];
+            refreshQuestions();
+        }
     }]);
 }());
 

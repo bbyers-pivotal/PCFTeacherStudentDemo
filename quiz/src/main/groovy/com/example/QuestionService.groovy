@@ -12,6 +12,9 @@ class QuestionService {
     @Autowired
     AnswerRepository answerRepository
 
+    @Autowired
+    UserClient userClient
+
     def findAll() {
         return questionRepository.findAll()
     }
@@ -27,7 +30,12 @@ class QuestionService {
 
     Boolean recordAnswer(String id, String username, String answer) {
         Question question = questionRepository.findById(id)[0]
-        if (question) {
+        if (username && question) {
+            User user = userClient.findByUsername(username) ?: new User(username: username)
+            if (!user.id) {
+                userClient.saveUser(user)
+            }
+
             Answer a = new Answer(answer: answer, username: username)
             answerRepository.save(a)
             question.answers << a

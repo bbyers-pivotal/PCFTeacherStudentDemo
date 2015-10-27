@@ -19,10 +19,14 @@
         var id = $routeParams.id;
 
         $http.get('questions/' + id).success(function(data) {
-            $scope.data.question = data;
+            angular.extend($scope.data.question, data, {answer: ''});
         });
 
         $scope.answerQuestion = function(question) {
+            if ($scope.data.question.answer.length === 0) {
+                return;
+            }
+
             hideMessages();
 
             $http.post('questions/' + question.id + '/answer', {id: question.id, answer: question.answer}).success(function() {
@@ -32,7 +36,7 @@
                 $timeout(function() {
                     hideMessages();
                     $location.path('questions');
-                }, 2000)
+                }, 1000)
             }).error(function() {
                 $scope.data.error = true;
             });

@@ -10,13 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 
-/**
- * Created by bbyers on 10/26/15.
- */
 @RestController
 class QuestionController {
-
-
 
     @Autowired
     QuestionService questionService

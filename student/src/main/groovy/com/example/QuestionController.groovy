@@ -1,7 +1,6 @@
 package com.example
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cloud.client.discovery.DiscoveryClient
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,12 +17,12 @@ class QuestionController {
 
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
     def questions() {
-        quizClient.getQuestions()
+        quizClient.findAll()
     }
 
     @RequestMapping(value = '/questions/{questionId}', method = RequestMethod.GET)
     def question(@PathVariable String questionId) {
-        quizClient.getQuestion(questionId)
+        quizClient.findById(questionId)
     }
 
     @RequestMapping(value = '/questions/{questionId}/answer', method = RequestMethod.POST)

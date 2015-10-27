@@ -1,8 +1,13 @@
+<ul class="breadcrumb">
+    <li><a href="#/">Home</a></li>
+    <li class="active">Questions</li>
+</ul>
+
 <div class="alert alert-info" ng-show="data.questions.length == 0">No questions to answer</div>
 <div class="questions" ng-show="data.questions.length > 0">
     <h3>New Questions</h3>
     <div ng-repeat="q in data.questions">
-        <h3><a ng-click="selectQuestion(q)" class="btn btn-default">{{q.question}}</a></h3>
+        <h3><a ng-click="selectQuestion(q)" class="btn btn-link">{{q.question}}</a></h3>
     </div>
 </div>
 
@@ -13,4 +18,8 @@
         <p><strong>{{q.question}}</strong></p>
         <p>{{q.answer}}</p>
     </div>
+</div>
+
+<div>
+    <a class="btn btn-link" id="resetQuestions" ng-show="data.answeredQuestions.length > 0" ng-click="resetQuestions()">Reset Questions</a>
 </div>

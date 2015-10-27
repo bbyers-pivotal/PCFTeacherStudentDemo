@@ -1,3 +1,9 @@
+<ul class="breadcrumb">
+    <li><a href="#/">Home</a></li>
+    <li><a href="#/questions">Questions</a></li>
+    <li class="active">{{data.question.question}}</li>
+</ul>
+
 <div class="alert alert-success" ng-show="data.saved">
     <strong>Success!</strong> Your answer has been saved.
 </div>
@@ -9,8 +15,12 @@
     <div>
         <h3>{{data.question.question}}</h3>
         <form id="question_{{data.question.id}}" name="question_{{data.question.id}}">
-            <textarea cols="100" rows="5" ng-model="data.question.answer"></textarea>
-            <a class="btn btn-primary" ng-click="answerQuestion(data.question)">Answer</a>
+            <div>
+                <textarea id="question" name="question" ng-model="data.question.answer"></textarea>
+            </div>
+            <div>
+                <a class="btn btn-primary" ng-disabled="data.question.answer.length === 0" ng-click="answerQuestion(data.question)">Answer</a>
+            </div>
         </form>
     </div>
 </div>

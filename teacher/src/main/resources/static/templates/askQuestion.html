@@ -1,3 +1,8 @@
+<ul class="breadcrumb">
+    <li><a href="#/">Home</a></li>
+    <li class="active">Ask a Question</li>
+</ul>
+
 <div class="alert alert-success" ng-show="data.saved">
     <strong>Success!</strong> Your question has been saved.
 </div>
@@ -9,8 +14,12 @@
     <div>
         <h3>What's on your mind?</h3>
         <form id="askQuestion" name="askQuestion">
-            <textarea cols="100" rows="5" ng-model="data.question.question"></textarea>
-            <a class="btn btn-primary" ng-click="saveQuestion(data.question)">Ask</a>
+            <div>
+                <textarea id="question" name="question" ng-model="data.question.question"></textarea>
+            </div>
+            <div>
+                <a class="btn btn-primary" ng-disabled="data.question.question.length === 0" ng-click="saveQuestion(data.question)">Ask</a>
+            </div>
         </form>
     </div>
 </div>

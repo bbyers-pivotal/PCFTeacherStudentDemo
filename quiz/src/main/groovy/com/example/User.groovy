@@ -1,7 +1,7 @@
 package com.example
 
-class Question {
+class User {
 
     String id
-    String question
+    String username
 }
