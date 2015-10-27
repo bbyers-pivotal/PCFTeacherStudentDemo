@@ -18,7 +18,7 @@
                 <textarea id="question" name="question" ng-model="data.question.question"></textarea>
             </div>
             <div>
-                <a class="btn btn-primary" ng-disabled="data.question.question.length === 0" ng-click="saveQuestion(data.question)">Ask</a>
+                <a class="btn btn-primary" ng-disabled="data.question.question.length === 0 || data.formSubmitted === true" ng-click="saveQuestion(data.question)">Ask</a>
             </div>
         </form>
     </div>

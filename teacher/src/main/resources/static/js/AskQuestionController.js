@@ -8,7 +8,8 @@
             error: false,
             question: {
                 question: ''
-            }
+            },
+            formSubmitted: false
         };
 
         function hideMessages() {
@@ -17,9 +18,11 @@
         }
 
         $scope.saveQuestion = function(question) {
-            if (question.question.length === 0) {
+            if (question.question.length === 0 || $scope.data.formSubmitted === true) {
                 return;
             }
+
+            $scope.data.formSubmitted = true;
 
             hideMessages();
 

@@ -5,22 +5,17 @@
     app.controller('QuestionController', ['$scope', '$http', '$localStorage', '$interval', '$timeout', '$location', function($scope, $http, $localStorage, $interval, $timeout, $location) {
         $scope.data = {};
 
-        $scope.data.answeredQuestions = $localStorage.answeredQuestions;
+        var username = $localStorage.username;
+        $scope.data.answeredQuestions = [];
+
         function refreshQuestions() {
             //console.log('Refreshing questions');
-            $http.get('questions/').success(function(data) {
-                var answeredQuestions = $localStorage.answeredQuestions;
-
-                var questionIds = _.pluck(answeredQuestions, 'id');
-                var unansweredQuestions = [];
-                angular.forEach(data, function(value, key) {
-                    if (!_.includes(questionIds, value.id)) {
-                        unansweredQuestions.push(value);
-                    }
-                });
-                $scope.data.questions = unansweredQuestions;
+            $http.get('questions/' + username).success(function(data) {
+                $scope.data.answeredQuestions = _.filter(data, function(q) { return q.answer !== ''; });
+                $scope.data.questions = _.filter(data, function(q) { return q.answer === ''; });
             });
         };
+
         refreshQuestions();
         var intervalPromise = $interval(refreshQuestions, 5000);
         $scope.$on('$destroy', function () { $interval.cancel(intervalPromise); });
@@ -30,9 +25,10 @@
         };
 
         $scope.resetQuestions = function() {
-            $localStorage.answeredQuestions = [];
-            $scope.data.answeredQuestions = [];
-            refreshQuestions();
+            $http.delete('answers/' + $localStorage.username).success(function() {
+                $scope.data.answeredQuestions = [];
+                refreshQuestions();
+            });
         }
     }]);
 }());

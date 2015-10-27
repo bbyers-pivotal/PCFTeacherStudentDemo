@@ -6,31 +6,31 @@
         $scope.data = {
             saved: false,
             error: false,
-            question: {}
+            question: {},
+            formSubmitted: false
         };
 
-        $scope.data.answeredQuestions = $localStorage.answeredQuestions;
+        var username = $localStorage.username;
+        var id = $routeParams.id;
 
         function hideMessages() {
             $scope.data.saved = false;
             $scope.data.error = false;
         }
 
-        var id = $routeParams.id;
-
-        $http.get('questions/' + id).success(function(data) {
-            angular.extend($scope.data.question, data, {answer: ''});
+        $http.get('questions/' + username + '/' + id).success(function(data) {
+            $scope.data.question = data;
         });
 
         $scope.answerQuestion = function(question) {
-            if ($scope.data.question.answer.length === 0) {
+            if ($scope.data.question.answer.length === 0 || $scope.data.formSubmitted === true) {
                 return;
             }
+            $scope.data.formSubmitted = true; //prevent double submit
 
             hideMessages();
 
-            $http.post('questions/' + question.id + '/answer', {id: question.id, answer: question.answer}).success(function() {
-                $localStorage.answeredQuestions.push(question);
+            $http.post('questions/' + username + '/' + question.id + '/answer', {id: question.id, answer: question.answer}).success(function() {
                 $scope.data.saved = true;
 
                 $timeout(function() {

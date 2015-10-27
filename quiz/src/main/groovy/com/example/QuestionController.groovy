@@ -18,7 +18,7 @@ class QuestionController {
 
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
     def questions() {
-        return questionService.findAll().collect { Question q -> [id: q.id, question: q.question ] }
+        return questionService.findAll()
     }
 
     @RequestMapping(value = '/questions/{id}', method = RequestMethod.GET)
@@ -30,9 +30,9 @@ class QuestionController {
     def saveQuestion(@RequestBody body) {
         if (body.question) {
             questionService.save(body.question)
-            new ResponseEntity(HttpStatus.CREATED)
+            return new ResponseEntity(HttpStatus.CREATED)
         } else {
-            new ResponseEntity(HttpStatus.BAD_REQUEST)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 
@@ -40,9 +40,9 @@ class QuestionController {
     def recordAnswer(@PathVariable id, @RequestBody body) {
         if (id && body.username && body.answer) {
             questionService.recordAnswer(id, body.username, body.answer)
-            new ResponseEntity(HttpStatus.CREATED)
+            return new ResponseEntity(HttpStatus.CREATED)
         } else {
-            new ResponseEntity(HttpStatus.BAD_REQUEST)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
 
     }

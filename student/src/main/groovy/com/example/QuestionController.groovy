@@ -16,25 +16,40 @@ class QuestionController {
     @Autowired
     QuizClient quizClient
 
-    @RequestMapping(value = '/questions', method = RequestMethod.GET)
-    def questions() {
-        findAllQuestions()
+    @RequestMapping(value = '/questions/{username}', method = RequestMethod.GET)
+    def findAll(@PathVariable username) {
+        def questions = findAllQuestions()
+        questions = filterQuestions(questions, username)
+        return questions.collect { questionMap(it) }
     }
 
-    @RequestMapping(value = '/questions/{questionId}', method = RequestMethod.GET)
-    def question(@PathVariable String questionId) {
-        findQuestionById(questionId)
+    @RequestMapping(value = '/questions/{username}/{questionId}', method = RequestMethod.GET)
+    def question(@PathVariable String username, @PathVariable String questionId) {
+        def question = findQuestionById(questionId)
+        question = filterQuestions([question], username)[0]
+        return questionMap(question)
     }
 
-    @RequestMapping(value = '/questions/{questionId}/answer', method = RequestMethod.POST)
-    def answerQuestion(@PathVariable String questionId, @RequestBody body) {
-        if (questionId && body.answer) {
-            Answer answer = new Answer(username: 'my pal', answer: body.answer)
+    @RequestMapping(value = '/questions/{username}/{questionId}/answer', method = RequestMethod.POST)
+    def answerQuestion(@PathVariable String username, @PathVariable String questionId, @RequestBody body) {
+        if (username && questionId && body.answer) {
+            Answer answer = new Answer(username: username, answer: body.answer)
             quizClient.answerQuestion(questionId, answer)
             new ResponseEntity(HttpStatus.CREATED)
         } else {
             new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
+    }
+
+    def filterQuestions(List<Question> questions, String username) {
+        questions.each { Question q ->
+            q.answers.removeAll { it?.username != username } //remove answers the user did not submit
+        }
+        questions
+    }
+
+    def questionMap(Question question) {
+        [id: question.id, question: question.question, answer: question.answers[0]?.answer ?: '']
     }
 
     /*

@@ -28,6 +28,28 @@ class QuestionService {
         return questionRepository.save(q)
     }
 
+    def findAllAnswersByUsername(String username) {
+        questionRepository.findAll().findAll { it.answers.username[0] == username }
+    }
+
+    def deleteAllAnswersByUsername(String username) {
+        def allQuestions = questionRepository.findAll()
+        def answeredQuestions = allQuestions.findAll { it.answers.username[0] == username }
+
+        //clear out orphaned
+//        questionRepository.findAll().each { Question q ->
+//            q.answers.removeAll([null])
+//            questionRepository.save(q)
+//        }
+        answeredQuestions.each { Question q ->
+            q.answers.removeAll { it.username[0] == username }
+            questionRepository.save(q)
+        }
+        answerRepository.findAllByUsername(username).each {
+            answerRepository.delete(it)
+        }
+    }
+
     Boolean recordAnswer(String id, String username, String answer) {
         Question question = questionRepository.findById(id)[0]
         if (username && question) {

@@ -16,4 +16,10 @@ public interface QuizClient {
 
     @RequestMapping(method = RequestMethod.POST, value = "/questions/{questionId}/answer", consumes = "application/json")
     answerQuestion(@PathVariable("questionId") String questionId, Answer answer)
+
+    @RequestMapping(method = RequestMethod.GET, value = "/answers/{username}")
+    findAllAnswersByUsername(@PathVariable("username") String username)
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/answers/{username}")
+    deleteAllAnswersByUsername(@PathVariable("username") String username)
 }
