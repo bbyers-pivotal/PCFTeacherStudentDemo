@@ -19,7 +19,8 @@
         }
 
         refreshAnswers(id);
-        $interval(refreshAnswers, 1000, 0, true, id);
+        var intervalPromise = $interval(refreshAnswers, 1000, 0, true, id);
+        $scope.$on('$destroy', function () { $interval.cancel(intervalPromise); });
     }]);
 }());
 

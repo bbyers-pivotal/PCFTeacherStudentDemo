@@ -47,7 +47,7 @@ class QuestionController {
         []
     }
 
-    def defaultQuestion() {
+    def defaultQuestion(String questionId) {
         null
     }
 }
