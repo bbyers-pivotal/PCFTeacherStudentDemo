@@ -5,4 +5,5 @@ applications:
 - name: student
   path: build/libs/student-0.0.1-SNAPSHOT.jar
   services: [ eureka-service ]
+  host: student-${random-word}
   domain: pezapp.io
