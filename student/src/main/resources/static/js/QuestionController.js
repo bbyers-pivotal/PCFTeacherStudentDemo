@@ -20,7 +20,7 @@
         };
 
         refreshQuestions();
-        var intervalPromise = $interval(refreshQuestions, 5000);
+        var intervalPromise = $interval(refreshQuestions, 2000);
         $scope.$on('$destroy', function () { $interval.cancel(intervalPromise); });
 
         $scope.selectQuestion = function(question) {
