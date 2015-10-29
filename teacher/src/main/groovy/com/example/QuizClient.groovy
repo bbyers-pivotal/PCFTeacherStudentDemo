@@ -18,8 +18,8 @@ public interface QuizClient {
     askQuestion(Question question)
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/questions")
-    List<Question> deleteAll()
+    deleteAll()
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/questions/{id}")
-    List<Question> delete(@PathVariable("id") String questionId)
+    delete(@PathVariable("id") String questionId)
 }

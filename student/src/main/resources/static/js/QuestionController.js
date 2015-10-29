@@ -3,7 +3,9 @@
 
     var app = angular.module('student');
     app.controller('QuestionController', ['$scope', '$http', '$localStorage', '$interval', '$timeout', '$location', function($scope, $http, $localStorage, $interval, $timeout, $location) {
-        $scope.data = {};
+        $scope.data = {
+            loaded: false
+        };
 
         var username = $localStorage.username;
         $scope.data.answeredQuestions = [];
@@ -13,6 +15,7 @@
             $http.get('questions/' + username).success(function(data) {
                 $scope.data.answeredQuestions = _.filter(data, function(q) { return q.answer !== ''; });
                 $scope.data.questions = _.filter(data, function(q) { return q.answer === ''; });
+                $scope.data.loaded = true;
             });
         };
 

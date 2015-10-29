@@ -35,9 +35,9 @@ class QuestionController {
         if (username && id && body.answer) {
             Answer answer = new Answer(username: username, answer: body.answer)
             quizClient.answerQuestion(id, answer)
-            new ResponseEntity(HttpStatus.CREATED)
+            return new ResponseEntity(HttpStatus.CREATED)
         } else {
-            new ResponseEntity(HttpStatus.BAD_REQUEST)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 
@@ -45,11 +45,11 @@ class QuestionController {
         questions.each { Question q ->
             q.answers.removeAll { it?.username != username } //remove answers the user did not submit
         }
-        questions
+        return questions
     }
 
     def questionMap(Question question) {
-        [id: question.id, question: question.question, answer: question.answers[0]?.answer ?: '']
+        return [id: question.id, question: question.question, answer: question.answers[0]?.answer ?: '']
     }
 
     /*
@@ -58,19 +58,19 @@ class QuestionController {
 
     @HystrixCommand(fallbackMethod = "defaultQuestions")
     def findAllQuestions() {
-        quizClient.findAll()
+        return quizClient.findAll()
     }
 
     def defaultQuestions() {
-        []
+        return []
     }
 
     @HystrixCommand(fallbackMethod = "defaultQuestion")
     def findQuestionById(String id) {
-        quizClient.findById(id)
+        return quizClient.findById(id)
     }
 
     def defaultQuestion(String id) {
-        null
+        return null
     }
 }

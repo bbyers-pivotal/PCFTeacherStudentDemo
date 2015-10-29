@@ -2,23 +2,25 @@
     <li><a href="#/">Home</a></li>
     <li class="active">Questions</li>
 </ul>
-<div class="alert alert-info" ng-hide="data.questions.length > 0">No questions to answer</div>
-<div class="questions" ng-show="data.questions.length > 0">
-    <h3>New Questions</h3>
-    <div ng-repeat="q in data.questions">
-        <h3><a ng-click="selectQuestion(q)" class="btn btn-link">{{q.question}}</a></h3>
+<div ng-show="data.loaded === true">
+    <div class="alert alert-info" ng-hide="data.questions.length > 0">No questions to answer</div>
+    <div class="questions" ng-show="data.questions.length > 0">
+        <h3>New Questions</h3>
+        <div ng-repeat="q in data.questions">
+            <h3><a ng-click="selectQuestion(q)" class="btn btn-link">{{q.question}}</a></h3>
+        </div>
     </div>
-</div>
 
 
-<div class="answered-questions" ng-show="data.answeredQuestions.length > 0">
-    <h3>Answered Questions</h3>
-    <div ng-repeat="q in data.answeredQuestions">
-        <p><strong>{{q.question}}</strong></p>
-        <p>{{q.answer}}</p>
+    <div class="answered-questions" ng-show="data.answeredQuestions.length > 0">
+        <h3>Answered Questions</h3>
+        <div ng-repeat="q in data.answeredQuestions">
+            <p><strong>{{q.question}}</strong></p>
+            <p>{{q.answer}}</p>
+        </div>
     </div>
-</div>
 
-<div>
-    <a class="btn btn-link" id="resetQuestions" ng-show="data.answeredQuestions.length > 0 || data.formSubmitted === true" ng-click="resetQuestions()">Reset Questions</a>
+    <div>
+        <a class="btn btn-link resetQuestions" ng-show="data.answeredQuestions.length > 0 || data.formSubmitted === true" ng-click="resetQuestions()">Reset Questions</a>
+    </div>
 </div>

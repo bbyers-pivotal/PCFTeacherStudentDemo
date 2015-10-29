@@ -1,6 +1,11 @@
 package com.example
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.mongodb.core.MongoOperations
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,6 +19,9 @@ class QuestionService {
 
     @Autowired
     UserClient userClient
+
+    @Autowired
+    MongoOperations mongoOperations
 
     def findAll() {
         return questionRepository.findAll()
@@ -29,28 +37,25 @@ class QuestionService {
     }
 
     def findAllAnswersByUsername(String username) {
-        questionRepository.findAll().findAll { it.answers.username[0] == username }
+        def userAnswers = answerRepository.findAllByUsername(username) //find all answers for the user
+        Query questionQuery = Query.query(Criteria.where("answers.id").in(userAnswers.id)) //create query to find child answers
+        return mongoOperations.find(questionQuery, Question) //find all the questions with answers by the u
     }
 
     def deleteAllAnswersByUsername(String username) {
-        def allQuestions = questionRepository.findAll()
-        def answeredQuestions = allQuestions.findAll { it.answers.username[0] == username }
+        def userAnswers = answerRepository.findAllByUsername(username) //find all answers for the user
+        Query questionQuery = Query.query(Criteria.where("answers.id").in(userAnswers.id)) //create query to find child answers
+        List<Question> questions = mongoOperations.find(questionQuery, Question) //find all the questions with answers by the user
 
-
-        answeredQuestions.each { Question q ->
-            q.answers.removeAll { it.username[0] == username }
-            questionRepository.save(q)
-        }
-        answerRepository.findAllByUsername(username).each {
-            answerRepository.delete(it)
-        }
-
-        //clear out orphaned
-        questionRepository.findAll().each { Question q ->
-            q.answers.removeAll([null])
+        //remove all the answers from the question for the user
+        questions.each { Question q ->
+            q.answers.removeAll { it.id in userAnswers.id }
             questionRepository.save(q)
         }
 
+        //finally, remove the answers themselves
+        Query removeQuery = Query.query(Criteria.where("id").in(userAnswers.id))
+        return mongoOperations.remove(removeQuery, Answer)
     }
 
     Boolean recordAnswer(String id, String username, String answer) {
@@ -65,18 +70,26 @@ class QuestionService {
             answerRepository.save(a)
             question.answers << a
             questionRepository.save(question)
-            return true
+            new ResponseEntity(HttpStatus.CREATED)
         } else {
-            return false
+            new ResponseEntity(HttpStatus.BAD_REQUEST)
         }
     }
 
     def deleteAll() {
         questionRepository.deleteAll()
         answerRepository.deleteAll()
+        new ResponseEntity(HttpStatus.OK)
     }
 
     def delete(String id) {
+        //remove all answers for the question
+        List<Answer> answers = questionRepository.findById(id).answers
+        Query removeQuery = Query.query(Criteria.where("id").in(answers.id))
+        mongoOperations.remove(removeQuery, Answer)
+
+        //finally, remove the question itself
         questionRepository.delete(id)
+        new ResponseEntity(HttpStatus.OK)
     }
 }

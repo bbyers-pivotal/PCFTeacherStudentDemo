@@ -14,12 +14,12 @@ class AnswerController {
 
     @RequestMapping(value = '/answers/{username}', method = RequestMethod.GET)
     def answersByUsername(@PathVariable String username) {
-        findAllAnswersByUsername(username)
+        return findAllAnswersByUsername(username)
     }
 
     @RequestMapping(value = '/answers/{username}', method = RequestMethod.DELETE)
     def deleteAnswersByUsername(@PathVariable String username) {
-        quizClient.deleteAllAnswersByUsername(username)
+        return quizClient.deleteAllAnswersByUsername(username)
     }
 
     /*
@@ -28,10 +28,10 @@ class AnswerController {
 
     @HystrixCommand(fallbackMethod = "defaultAnswers")
     def findAllAnswersByUsername(String username) {
-        quizClient.findAllAnswersByUsername(username)
+        return quizClient.findAllAnswersByUsername(username)
     }
 
     def defaultAnswers(String username) {
-        []
+        return []
     }
 }

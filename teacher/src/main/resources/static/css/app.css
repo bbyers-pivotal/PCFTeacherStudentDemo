@@ -18,3 +18,14 @@ body {
 .breadcrumb {
     margin-top: -40px;
 }
+
+.resetQuestions {
+    margin-top: 100px;
+}
+
+@media only screen and (max-device-width: 480px) {
+    /* define mobile specific styles come here */
+    #question {
+        width: 100%;
+    }
+}
