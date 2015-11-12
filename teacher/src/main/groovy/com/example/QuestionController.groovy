@@ -14,25 +14,25 @@ import org.springframework.web.bind.annotation.RestController
 class QuestionController {
 
     @Autowired
-    QuizClient quizClient
+    SurveyClient surveyClient
 
     @RequestMapping(value = '/questions', method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "defaultQuestions")
     def questions() {
-        return quizClient.findAll()
+        return surveyClient.findAll()
     }
 
     @RequestMapping(value = '/questions/{id}', method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "defaultQuestion")
     def question(@PathVariable String id) {
-        return quizClient.findById(id)
+        return surveyClient.findById(id)
     }
 
     @RequestMapping(value = '/questions', method = RequestMethod.POST)
     def askQuestion(@RequestBody body) {
         if (body.question) {
             Question question = new Question(question: body.question)
-            quizClient.askQuestion(question)
+            surveyClient.askQuestion(question)
             return new ResponseEntity(HttpStatus.CREATED)
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST)
@@ -41,13 +41,13 @@ class QuestionController {
 
     @RequestMapping(value = '/questions', method = RequestMethod.DELETE)
     def deleteAllQuestions() {
-        quizClient.deleteAll()
+        surveyClient.deleteAll()
         return new ResponseEntity(HttpStatus.OK)
     }
 
     @RequestMapping(value = '/questions/{id}', method = RequestMethod.DELETE)
     def deleteQuestion(@PathVariable String id) {
-        quizClient.delete(id)
+        surveyClient.delete(id)
         return new ResponseEntity(HttpStatus.OK)
     }
 

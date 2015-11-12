@@ -3,4 +3,5 @@ applications:
 - name: user
   path: build/libs/user-0.0.1-SNAPSHOT.jar
   services: [ eureka-service, mongodb-service ]
-  domain: pezapp.io
+  host: user-bb
+  domain: apps.pcfninja.io

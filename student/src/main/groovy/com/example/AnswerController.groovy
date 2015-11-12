@@ -2,15 +2,13 @@ package com.example
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 class AnswerController {
 
     @Autowired
-    QuizClient quizClient
+    SurveyClient surveyClient
 
     @RequestMapping(value = '/answers/{username}', method = RequestMethod.GET)
     def answersByUsername(@PathVariable String username) {
@@ -19,7 +17,7 @@ class AnswerController {
 
     @RequestMapping(value = '/answers/{username}', method = RequestMethod.DELETE)
     def deleteAnswersByUsername(@PathVariable String username) {
-        return quizClient.deleteAllAnswersByUsername(username)
+        return surveyClient.deleteAllAnswersByUsername(username)
     }
 
     /*
@@ -28,7 +26,7 @@ class AnswerController {
 
     @HystrixCommand(fallbackMethod = "defaultAnswers")
     def findAllAnswersByUsername(String username) {
-        return quizClient.findAllAnswersByUsername(username)
+        return surveyClient.findAllAnswersByUsername(username)
     }
 
     def defaultAnswers(String username) {

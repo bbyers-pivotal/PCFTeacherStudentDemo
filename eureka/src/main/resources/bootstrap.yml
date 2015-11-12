@@ -10,7 +10,7 @@ eureka:
       instanceId: ${spring.application.name}:${vcap.application.instance_index:${server.port}}
   enableSelfPreservation: false
   server:
-    waitTimeInMsWhenSyncEmpty: 0
+    waitTimeInMsWhenSyncEmpty: 15
 
 logging:
   level:

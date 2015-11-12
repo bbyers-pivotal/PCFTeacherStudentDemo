@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 class QuestionController {
 
     @Autowired
-    QuizClient quizClient
+    SurveyClient surveyClient
+
+    @Autowired
+    LoadService loadService
+
 
     @RequestMapping(value = '/questions/{username}', method = RequestMethod.GET)
     def findAll(@PathVariable username) {
@@ -34,7 +38,7 @@ class QuestionController {
     def answerQuestion(@PathVariable String username, @PathVariable String id, @RequestBody body) {
         if (username && id && body.answer) {
             Answer answer = new Answer(username: username, answer: body.answer)
-            quizClient.answerQuestion(id, answer)
+            surveyClient.answerQuestion(id, answer)
             return new ResponseEntity(HttpStatus.CREATED)
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST)
@@ -52,13 +56,19 @@ class QuestionController {
         return [id: question.id, question: question.question, answer: question.answers[0]?.answer ?: '']
     }
 
+    @RequestMapping('/makeItAngry')
+    def makeItAngry() {
+        loadService.bogItDown()
+        return true
+    }
+
     /*
      * Hystrix commands/fallbacks
      */
 
     @HystrixCommand(fallbackMethod = "defaultQuestions")
     def findAllQuestions() {
-        return quizClient.findAll()
+        return surveyClient.findAll()
     }
 
     def defaultQuestions() {
@@ -67,7 +77,7 @@ class QuestionController {
 
     @HystrixCommand(fallbackMethod = "defaultQuestion")
     def findQuestionById(String id) {
-        return quizClient.findById(id)
+        return surveyClient.findById(id)
     }
 
     def defaultQuestion(String id) {

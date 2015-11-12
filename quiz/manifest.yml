@@ -1,8 +1,0 @@
----
-env:
-    SPRING_PROFILES_DEFAULT: cloud
-applications:
-- name: quiz
-  path: build/libs/quiz-0.0.1-SNAPSHOT.jar
-  services: [ eureka-service, mongodb-service, rabbitmq-service ]
-  domain: pezapp.io

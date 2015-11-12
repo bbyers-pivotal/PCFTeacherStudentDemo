@@ -1,0 +1,9 @@
+---
+env:
+    SPRING_PROFILES_DEFAULT: cloud
+applications:
+- name: survey
+  path: build/libs/survey-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service, mongodb-service ]
+  host: survey
+  domain: apps.pcfninja.io
