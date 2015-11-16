@@ -12,4 +12,9 @@ class HomeController {
     def home() {
         return 'home'
     }
+
+    @RequestMapping('/kill')
+    def killIt() {
+    	System.exit(0)
+    }
 }

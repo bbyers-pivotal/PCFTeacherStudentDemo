@@ -17,10 +17,10 @@ applications:
   host: teacher-${random-word}
   path: teacher/build/libs/teacher-0.0.1-SNAPSHOT.jar
   services: [ eureka-service ]
-- name: quiz
-  host: quiz-${random-word}
-  path: quiz/build/libs/quiz-0.0.1-SNAPSHOT.jar
-  services: [ eureka-service, mongodb-service, rabbitmq-service ]
+- name: survey
+  host: survey-${random-word}
+  path: survey/build/libs/survey-0.0.1-SNAPSHOT.jar
+  services: [ eureka-service, mongodb-service ]
 - name: user
   host: user-${random-word}
   path: user/build/libs/user-0.0.1-SNAPSHOT.jar
